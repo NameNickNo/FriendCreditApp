@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update person</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/person/mypage/edit}" th:object="${person}">
+    <label for="fullName">Enter fullName: </label>
+    <input type="text" th:field="*{fullName}" id="fullName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">fullName Error</div>
+    <br/>
+    <label for="birthDate">Enter birthDate: </label>
+    <input type="text" th:field="*{birthDate}" id="birthDate"/>
+    <div style="color:red" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">BirthDate Error</div>
+    <br/>
+    <label for="email">Enter email: </label>
+    <input type="text" th:field="*{email}" id="email"/>
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+    <br/>
+    <label for="username">Enter username: </label>
+    <input type="text" th:field="*{username}" id="username"/>
+    <br/>
+<!--    <label for="password">Enter password: </label>-->
+<!--    <input type="text" th:field="*{password}" id="password"/>-->
+<!--    <br/>-->
+    <input type="submit" value="Update!"/>
+</form>
+<br/>
+<br/>
+<a th:href="@{/person/mypage}">Назад</a>
+</body>
+</html>

@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.0
+      author: NameNickNo
+      changes:
+        - createTable:
+            tableName: person
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: full_name
+                  type: varchar(255)
+                  constaints:
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: birth_date
+                  type: date
+              - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    default: 'ROLE_USER'
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)

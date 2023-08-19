@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Личная страница</title>
+</head>
+<body>
+
+<div align="center">
+    <h1 th:text="${person.getFullName()}"></h1>
+</div>
+<p th:text="${'Username: ' + person.getUsername()}"></p>
+<p th:text="${'Email: ' + person.getEmail()}"></p>
+<p th:text="${'Дата рождения: ' + person.getBirthDate()}"></p>
+
+<p>Друзья</p>
+<div th:each="friendship : ${person.getFriends()}">
+    <a th:href="@{/person/{id}(id=${friendship.getFriend().getId()})}"
+       th:text="${friendship.getFriend().getFullName()}"></a>
+<!--    <form th:method="GET" th:action="@{/debt/create/{id}(id=${friendship.getFriend().getId()})}">-->
+<!--        <input type="submit" value="Взять в долг"/>-->
+<!--    </form>-->
+</div>
+<br/>
+
+<b th:if="${not person.getDebts().isEmpty()}">Долги</b>
+<div th:each="debt : ${person.getDebts()}">
+    <a th:text="${debt.getLender().getFullName()} + ' : ' + ${debt.getAmount()} + ' '"></a>
+    <b th:if="${'NOT_CONFIRMED' == debt.getStatus().name()}">- Не подтвержден</b>
+    <br>
+</div>
+
+<b th:if="${not person.getLends().isEmpty()}">Должники</b>
+<div th:each="lend : ${person.getLends()}">
+
+    <a th:if="${'CONFIRMED' == lend.getStatus().name()}">
+        <a th:text="${lend.getDebtor().getFullName()} + ' : ' + ${lend.getAmount()}"></a>
+
+        <form th:method="POST" th:action="@{/debt/cancel/{id}(id=${lend.getId()})}">
+            <input type="submit" value="Аннулировать"/>
+        </form>
+        <br>
+    </a>
+
+    <a th:if="${'NOT_CONFIRMED' == lend.getStatus().name()}">
+        <a th:text="'Запрос: ' + ${lend.getDebtor().getFullName()} + ' просит в долг, сумма ' + ${lend.getAmount()}"></a>
+        <form th:method="POST" th:action="@{/debt/confirm/{id}(id=${lend.getId()})}">
+            <input type="submit" value="Подтвердить"/>
+        </form>
+        <br>
+    </a>
+</div>
+
+<br>
+<a th:href="@{/person/mypage/edit}">Редактировать профиль</a>
+<br>
+<a th:href="@{/person/mypage/changepass}">Изменить пароль</a>
+<br>
+<br>
+<a href="/person">Назад</a>
+<br>
+<br>
+<br>
+<br>
+<form th:method="POST" th:action="@{/person/remove}">
+    <input type="submit" value="Удалить аккаунт"/>
+</form>
+</body>
+</html>

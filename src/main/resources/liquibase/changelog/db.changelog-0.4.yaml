@@ -1,0 +1,180 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.4.0
+      author: NameNickNo
+      changes:
+        - dropTable:
+            tableName: friendship
+  - changeSet:
+      id: 0.4.1
+      author: NameNickNo
+      changes:
+        - dropTable:
+            tableName: debt
+  - changeSet:
+      id: 0.4.2
+      author: NameNickNo
+      changes:
+        - dropTable:
+            tableName: person
+  - changeSet:
+      id: 0.4.3
+      author: NameNickNo
+      changes:
+        - createTable:
+            tableName: person
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: full_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(100)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: birth_date
+                  type: date
+              - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    default: 'ROLE_USER'
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+  - changeSet:
+      id: 0.4.4
+      author: NameNickNo
+      changes:
+        - createTable:
+            tableName: debt
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: debtor_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lender_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_of_credit
+                  type: date
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: credit_repayment_date
+                  type: date
+              - column:
+                  name: percent
+                  type: int
+              - column:
+                  name: status
+                  type: varchar(100)
+                  defaultValue: 'NOT_CONFIRMED'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 0.4.5
+      author: NameNickNo
+      changes:
+        - createTable:
+            tableName: friendship
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: person_id
+                  type: bigint
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: friend_id
+                  type: bigint
+                  constraints:
+                    - nullable: false

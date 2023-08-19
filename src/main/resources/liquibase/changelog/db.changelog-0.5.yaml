@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.5.0
+      author: NameNickNo
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: person_id
+            baseTableName: friendship
+            constraintName: fk_person_id
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: person
+  - changeSet:
+      id: 0.5.1
+      author: NameNickNo
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: friend_id
+            baseTableName: friendship
+            constraintName: fk_friend_id
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: person
+  - changeSet:
+      id: 0.5.2
+      author: NameNickNo
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: debtor_id
+            baseTableName: debt
+            constraintName: fk_debtor_id
+            onDelete: SET NULL
+            referencedColumnNames: id
+            referencedTableName: person
+  - changeSet:
+      id: 0.5.3
+      author: NameNickNo
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: lender_id
+            baseTableName: debt
+            constraintName: fk_lender_id
+            onDelete: SET NULL
+            referencedColumnNames: id
+            referencedTableName: person

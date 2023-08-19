@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.6.0
+      author: NameNickNo
+      changes:
+        - sql:
+            sql: >
+              insert into person(id, full_name, username, password, email, birth_date, role, status)
+              select id, full_name, username, password, email, birth_date, role, status from person_copy
+  - changeSet:
+      id: 0.6.1
+      author: NameNickNo
+      changes:
+        - sql:
+            sql: >
+              insert into debt(id, debtor_id, lender_id, amount, date_of_credit, credit_repayment_date,
+              percent, status, is_active)
+              select id, debtor_id, lender_id, amount, date_of_credit, credit_repayment_date,
+              percent, status, is_active from debt_copy
+  - changeSet:
+      id: 0.6.2
+      author: NameNickNo
+      changes:
+        - sql:
+            sql: >
+              insert into friendship(id, person_id, friend_id)
+              select id, person_id, friend_id from friendship_copy

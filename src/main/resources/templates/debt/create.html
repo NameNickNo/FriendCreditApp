@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новый долг</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/debt/create}" th:object="${debtDTO}">
+    <label for="amount">Сумма долга: </label>
+    <input type="number" th:field="*{amount}" id="amount"/><br/>
+    <!--    <div style="color:red" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">fullName Error</div>-->
+
+    <label for="lenderUsername">Заемщик: </label>
+    <input type="text" th:field="*{lenderUsername}" id="lenderUsername"/><br/>
+
+    <label for="creditRepaymentDate">Дата возврата долга: </label>
+    <input type="text" th:field="*{creditRepaymentDate}" id="creditRepaymentDate"/><br/>
+
+    <label for="percent">Процент (начисляется, если долг не вернули вовремя): </label>
+    <input type="number" th:field="*{percent}" id="percent"/><br/>
+
+    <input type="submit" value="Взять в долг"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+
+<div align="center">
+    <h1>Friend credit project</h1>
+</div>
+<br/>
+<div th:each="friend : ${currentPerson.getFriends()}">
+    <!--    <a th:href="@{/person/{id}(id=${person.getId()})}"-->
+    <!--       th:text="${person.getFullName() + ', ' + person.getEmail()}">user</a>-->
+    <a th:text="${friend.getFriend().getFullName() + ', ' + friend.getFriend().getEmail()}"></a>
+    <br>
+    <br>
+</div>
+<br/>
+<div th:each="person : ${persons}">
+    <a th:text="${person.getFullName() + ', ' + person.getEmail()}"></a>
+    <form th:method="POST" th:action="@{/friendship/create/{id}(id=${person.getId()})}">
+        <input type="submit" value="Добавить в друзья"/>
+    </form>
+    <br>
+</div>
+
+<br/>
+    <a th:href="@{/person/mypage}">Моя страница</a>
+<br/>
+<br/>
+<form th:method="POST" th:action="@{/auth/logout}">
+    <input type="submit" value="Выйти"/>
+</form>
+
+</body>
+</html>

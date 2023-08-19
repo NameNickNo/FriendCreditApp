@@ -1,0 +1,120 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.3.0
+      author: NameNickNo
+      changes:
+        - createTable:
+            tableName: debt_copy
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: debtor_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lender_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_of_credit
+                  type: date
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: credit_repayment_date
+                  type: date
+              - column:
+                  name: percent
+                  type: int
+              - column:
+                  name: status
+                  type: varchar(100)
+                  defaultValue: 'NOT_CONFIRMED'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 0.3.1
+      author: NameNickNo
+      changes:
+        - sql:
+            sql: >
+              insert into debt_copy(id, debtor_id, lender_id, amount, date_of_credit, credit_repayment_date,
+              percent, status, is_active)
+              select id, debtor_id, lender_id, amount, date_of_credit, credit_repayment_date,
+              percent, status, is_active from debt
+  - changeSet:
+      id: 0.3.2
+      author: NameNickNo
+      changes:
+        - createTable:
+            tableName: friendship_copy
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: updated
+                  type: timestamp
+                  defaultValue: now()
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: person_id
+                  type: bigint
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: friend_id
+                  type: bigint
+                  constraints:
+                    - nullable: false
+  - changeSet:
+      id: 0.3.3
+      author: NameNickNo
+      changes:
+        - sql:
+            sql: >
+              insert into friendship_copy(id, person_id, friend_id)
+              select id, person_id, friend_id from friendship

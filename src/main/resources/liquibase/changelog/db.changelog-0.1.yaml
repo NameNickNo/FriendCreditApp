@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.1.0
+      author: NameNickNo
+      changes:
+        - modifyDataType:
+            columnName: id
+            newDataType: bigint
+            tableName: person
