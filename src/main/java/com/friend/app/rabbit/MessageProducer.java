@@ -1,4 +1,4 @@
-package com.friend.app.service;
+package com.friend.app.rabbit;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 
