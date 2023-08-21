@@ -1,7 +1,7 @@
 package com.friend.app.service.impl;
 
 import com.friend.app.models.person.Person;
-import com.friend.app.models.person.PersonChangePasswordEntity;
+import com.friend.app.dto.PersonChangePasswordDTO;
 import com.friend.app.repo.PersonRepository;
 import com.friend.app.service.PersonService;
 import org.springframework.stereotype.Service;
@@ -55,7 +55,7 @@ public class JpaPersonService implements PersonService {
     }
 
     @Override
-    public void changePassword(Person person, PersonChangePasswordEntity changePassEntity) {
+    public void changePassword(Person person, PersonChangePasswordDTO changePassEntity) {
 
     }
 

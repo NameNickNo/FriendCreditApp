@@ -2,10 +2,11 @@ package com.friend.app.controllers.soap;
 
 import com.friend.app.dto.DebtDTO;
 import com.friend.app.models.person.Person;
-import com.friend.app.models.person.PersonChangePasswordEntity;
+import com.friend.app.dto.PersonChangePasswordDTO;
 import com.friend.app.security.PersonDetails;
 import com.friend.app.service.PersonService;
 import com.friend.app.setting.HibernateQualifier;
+import com.friend.app.util.PersonUtils;
 import com.friend.app.util.exception.PersonNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,32 +22,28 @@ import java.util.Optional;
 public class PersonController {
 
     private final PersonService personService;
+    private final PersonUtils personUtils;
 
-    public PersonController(@HibernateQualifier PersonService personService) {
+    public PersonController(@HibernateQualifier PersonService personService, PersonUtils personUtils) {
         this.personService = personService;
+        this.personUtils = personUtils;
     }
 
     @GetMapping
     public String getAll(@AuthenticationPrincipal PersonDetails personDetails, Model model) {
-        Person authenticationPerson = personDetails.getPerson();
-        Optional<Person> currentPerson = personService.findById(authenticationPerson.getId());
-        if (currentPerson.isEmpty())
-            throw new PersonNotFoundException("Person with id: " + authenticationPerson.getId() + " not found");
+        Person currentPerson = personUtils.getCurrentPerson(personDetails);
 
-        model.addAttribute("persons", personService.findOtherPersonsWithoutFriends(authenticationPerson));
-        model.addAttribute("currentPerson", currentPerson.get());
+        model.addAttribute("persons", personService.findOtherPersonsWithoutFriends(currentPerson));
+        model.addAttribute("currentPerson", currentPerson);
         return "person/all";
     }
 
     @GetMapping("/mypage")
     public String getMyPage(@AuthenticationPrincipal PersonDetails personDetails, Model model) {
-        Person authenticationPerson = personDetails.getPerson();
-        Optional<Person> person = personService.findById(authenticationPerson.getId());
-        if (person.isEmpty())
-            throw new PersonNotFoundException("Person with id: " + authenticationPerson.getId() + " not found");
+        Person currentPerson = personUtils.getCurrentPerson(personDetails);
 
-        model.addAttribute("person", person.get());
-        model.addAttribute("debtDTO", new DebtDTO(person.get().getUsername()));
+        model.addAttribute("person", currentPerson);
+        model.addAttribute("debtDTO", new DebtDTO(currentPerson.getUsername()));
         return "person/personalPage";
     }
 
@@ -62,12 +59,9 @@ public class PersonController {
 
     @GetMapping("/mypage/edit")
     public String editMyPage(@AuthenticationPrincipal PersonDetails personDetails, Model model) {
-        Person authenticationPerson = personDetails.getPerson();
-        Person person = personService.findById(authenticationPerson.getId()).orElse(null);
-        if (person == null)
-            throw new PersonNotFoundException("Person with id: " + authenticationPerson.getId() + " not found");
+        Person currentPerson = personUtils.getCurrentPerson(personDetails);
 
-        model.addAttribute("person", person);
+        model.addAttribute("person", currentPerson);
         return "person/edit";
     }
 
@@ -82,18 +76,18 @@ public class PersonController {
 
     @GetMapping("/mypage/changepass")
     public String editMyPassword(Model model) {
-        model.addAttribute("personChangePass", new PersonChangePasswordEntity());
+        model.addAttribute("personChangePass", new PersonChangePasswordDTO());
         return "person/changePass";
     }
 
     @PostMapping("/mypage/changepass")
-    public String editPassword(@ModelAttribute("personEditPass") @Valid PersonChangePasswordEntity personChangePasswordEntity,
+    public String editPassword(@ModelAttribute("personEditPass") @Valid PersonChangePasswordDTO personChangePasswordDTO,
                                @AuthenticationPrincipal PersonDetails personDetails, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "person/editpass";
 
         Person authenticationPerson = personDetails.getPerson();
-        personService.changePassword(authenticationPerson, personChangePasswordEntity);
+        personService.changePassword(authenticationPerson, personChangePasswordDTO);
         return "redirect:/person/mypage";
     }
 

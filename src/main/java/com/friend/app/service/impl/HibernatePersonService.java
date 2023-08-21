@@ -1,7 +1,7 @@
 package com.friend.app.service.impl;
 
 import com.friend.app.models.person.Person;
-import com.friend.app.models.person.PersonChangePasswordEntity;
+import com.friend.app.dto.PersonChangePasswordDTO;
 import com.friend.app.models.person.PersonStatus;
 import com.friend.app.models.person.Role;
 import com.friend.app.service.PersonService;
@@ -103,7 +103,7 @@ public class HibernatePersonService implements PersonService {
         personToRemove.setRole(Role.ROLE_REMOVED);
     }
 
-    public void changePassword(Person person, PersonChangePasswordEntity changePassEntity) {
+    public void changePassword(Person person, PersonChangePasswordDTO changePassEntity) {
         Session session = sessionFactory.getCurrentSession();
         Person personToChangePass = session.get(Person.class, person.getId());
 
