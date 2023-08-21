@@ -2,6 +2,7 @@ package com.friend.app.service;
 
 import com.friend.app.models.TelegramAccount;
 import com.friend.app.models.person.Person;
+import com.friend.app.rabbit.MessageProducer;
 import com.friend.app.setting.HibernateQualifier;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
