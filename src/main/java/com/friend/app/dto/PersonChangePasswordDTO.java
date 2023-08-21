@@ -1,11 +1,11 @@
-package com.friend.app.models.person;
+package com.friend.app.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class PersonChangePasswordEntity {
+public class PersonChangePasswordDTO {
 
     @Size(min = 3, max = 50)
     @NotEmpty(message = "Обязателен к заполнению")

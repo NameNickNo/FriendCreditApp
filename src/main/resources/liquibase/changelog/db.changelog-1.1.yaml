@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 1.0
+      id: 1.1.0
       author: NameNickNo
       changes:
         - createTable:
-            tableName: person
+            tableName: telegram_account
             columns:
               - column:
                   name: id
@@ -26,36 +26,35 @@ databaseChangeLog:
                   constraints:
                     - nullable: false
               - column:
-                  name: full_name
-                  type: varchar(255)
-                  constaints:
-                    nullable: false
-              - column:
                   name: username
-                  type: varchar(50)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: password
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: email
-                  type: varchar(100)
+                  name: chat_id
+                  type: bigint
                   constraints:
                     unique: true
                     nullable: false
+  - changeSet:
+      id: 1.1.1
+      author: NameNickNo
+      changes:
+        - addColumn:
+            tableName: person
+            columns:
               - column:
-                  name: birth_date
-                  type: date
-              - column:
-                  name: role
-                  type: varchar(50)
-                  constraints:
-                    default: 'ROLE_USER'
-                    nullable: false
-              - column:
-                  name: status
-                  type: varchar(50)
+                  name: telegram_account_id
+                  type: bigint
+  - changeSet:
+      id: 1.1.2
+      author: NameNickNo
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: telegram_account_id
+            baseTableName: person
+            constraintName: fk_telegram_account_id
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: telegram_account
+
