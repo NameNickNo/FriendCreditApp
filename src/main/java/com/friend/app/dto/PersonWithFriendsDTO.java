@@ -1,5 +1,6 @@
 package com.friend.app.dto;
 
+import com.friend.app.models.person.Person;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -8,9 +9,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
-public class PersonSimpleDTO {
+public class PersonWithFriendsDTO {
 
     private long id;
 
@@ -28,4 +30,6 @@ public class PersonSimpleDTO {
 
     @Email(message = "Адрес электронной почты должен быть валидным")
     private String email;
+
+    private List<Person> friends;
 }

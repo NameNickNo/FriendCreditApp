@@ -17,12 +17,11 @@ public class SecurityConfig {
 
     private final String ADMIN_REQUESTS = "/admin/**";
     private final String[] AUTH_REQUESTS = new String[]{"/auth/**", "/error"};
-    private final String[] USER_REQUESTS = new String[]{"/api/**", "/message/**", "/debt/**", "/person/**","/friendship/**"};
+    private final String USER_REQUESTS = "/api/**";
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-//                .httpBasic().and().csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(AUTH_REQUESTS).permitAll();
                     auth.requestMatchers(USER_REQUESTS).hasAnyRole(Role.getUserShortName(), Role.getAdminShortName());

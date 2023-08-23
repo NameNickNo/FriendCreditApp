@@ -1,7 +1,7 @@
 package com.friend.app.service.impl;
 
+import com.friend.app.dto.PersonDTO;
 import com.friend.app.models.person.Person;
-import com.friend.app.dto.PersonChangePasswordDTO;
 import com.friend.app.repo.PersonRepository;
 import com.friend.app.service.PersonService;
 import org.springframework.stereotype.Service;
@@ -45,18 +45,13 @@ public class JpaPersonService implements PersonService {
     }
 
     @Override
-    public void update(Person person) {
+    public void update(PersonDTO person) {
 
     }
 
     @Override
-    public void remove(Person person) {
-        personRepository.delete(person);
-    }
-
-    @Override
-    public void changePassword(Person person, PersonChangePasswordDTO changePassEntity) {
-
+    public void remove(long id) {
+        personRepository.deleteById(id);
     }
 
     @Override

@@ -19,7 +19,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/api/message")
 public class MessageController {
 
     private final TelegramBotService telegramBotService;

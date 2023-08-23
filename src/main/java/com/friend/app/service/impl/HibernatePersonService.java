@@ -1,5 +1,6 @@
 package com.friend.app.service.impl;
 
+import com.friend.app.dto.PersonDTO;
 import com.friend.app.models.person.Person;
 import com.friend.app.dto.PersonChangePasswordDTO;
 import com.friend.app.models.person.PersonStatus;
@@ -7,6 +8,8 @@ import com.friend.app.models.person.Role;
 import com.friend.app.service.PersonService;
 import com.friend.app.setting.HibernateQualifier;
 import com.friend.app.util.exception.PersonChangePasswordException;
+import com.friend.app.util.exception.PersonNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,6 +25,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @HibernateQualifier
+@Slf4j
 public class HibernatePersonService implements PersonService {
 
     private final SessionFactory sessionFactory;
@@ -81,45 +85,36 @@ public class HibernatePersonService implements PersonService {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
 
         session.persist(person);
+        log.debug("Created new person {} : {}", person.getUsername(), person.getFullName());
     }
 
     @Override
-    public void update(Person person) {
+    public void update(PersonDTO personDTO) {
         Session session = sessionFactory.getCurrentSession();
-        Person personToUpdate = session.get(Person.class, person.getId());
+        Person personToUpdate = session.get(Person.class, personDTO.getId());
+        if (personToUpdate == null)
+            throw new PersonNotFoundException("Person with id " + personDTO.getId() + " not found!");
 
-        personToUpdate.setFullName(person.getFullName());
-        personToUpdate.setEmail(person.getEmail());
-        personToUpdate.setBirthDate(person.getBirthDate());
-        personToUpdate.setUsername(person.getUsername());
+        if (isIdenticalAttributes(personDTO, personToUpdate)) {
+            log.debug("Person not updated, nothing to update {} : {}", personToUpdate.getUsername(), personToUpdate.getFullName());
+            return;
+        }
+
+        personToUpdate.setFullName(personDTO.getFullName());
+        personToUpdate.setEmail(personDTO.getEmail());
+        personToUpdate.setBirthDate(personDTO.getBirthDate());
+        personToUpdate.setUsername(personDTO.getUsername());
+        log.debug("Person was updated {} : {}", personToUpdate.getUsername(), personToUpdate.getFullName());
     }
 
     @Override
-    public void remove(Person person) {
+    public void remove(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Person personToRemove = session.get(Person.class, person.getId());
+        Person personToRemove = session.get(Person.class, id);
 
         personToRemove.setStatus(PersonStatus.BANNED);
         personToRemove.setRole(Role.ROLE_REMOVED);
-    }
-
-    public void changePassword(Person person, PersonChangePasswordDTO changePassEntity) {
-        Session session = sessionFactory.getCurrentSession();
-        Person personToChangePass = session.get(Person.class, person.getId());
-
-        String oldPassword = changePassEntity.getOldPassword();
-        String newPassword = changePassEntity.getNewPassword();
-
-        if (!passwordEncoder.matches(oldPassword, personToChangePass.getPassword()))
-            throw new PersonChangePasswordException("Old password not correct!");
-
-        if (!newPassword.equals(changePassEntity.getRepeatNewPassword()))
-            throw new PersonChangePasswordException("Repeat password not correct!");
-
-        if (oldPassword.equals(newPassword))
-            throw new PersonChangePasswordException("Old and new password must be different!");
-
-        personToChangePass.setPassword(passwordEncoder.encode(newPassword));
+        log.debug("Person was removed {} : {}", personToRemove.getUsername(), personToRemove.getFullName());
     }
 
     @Override
@@ -131,6 +126,11 @@ public class HibernatePersonService implements PersonService {
         Query<Person> query = session.createQuery(peopleWithoutFriends, Person.class);
         query.setParameter("currentPersonId", currentPerson.getId());
         return query.getResultList();
+    }
+
+    private boolean isIdenticalAttributes(PersonDTO personDTO, Person personToUpdate) {
+        PersonDTO personToCheck = new PersonDTO(personToUpdate);
+        return personDTO.equals(personToCheck);
     }
 
     private void initializeAllLazyAttributes(Person person) {
