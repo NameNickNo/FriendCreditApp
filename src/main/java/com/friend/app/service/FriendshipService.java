@@ -2,5 +2,7 @@ package com.friend.app.service;
 
 public interface FriendshipService {
 
-    void createFriendship(int id);
+    void createFriendship(long id);
+
+    void removeFriendship(long id);
 }

@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class FriendshipDTO {
 
-    private PersonSimpleDTO friend;
+    private PersonDTO friend;
 }

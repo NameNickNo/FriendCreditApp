@@ -36,14 +36,6 @@ public class AuthController {
         return "auth/login";
     }
 
-    @GetMapping("/showUserInfo")
-    public String showUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        System.out.println(personDetails.getPerson());
-        return "";
-    }
-
     @GetMapping("/registration")
     public String registrationPage(Model model) {
         model.addAttribute("person", new Person());

@@ -1,5 +1,6 @@
 package com.friend.app.service;
 
+import com.friend.app.dto.PersonDTO;
 import com.friend.app.models.person.Person;
 import com.friend.app.dto.PersonChangePasswordDTO;
 
@@ -18,11 +19,9 @@ public interface PersonService {
 
      void save(Person person);
 
-     void update(Person person);
+     void update(PersonDTO person);
 
-     void remove(Person person);
-
-     void changePassword(Person person, PersonChangePasswordDTO changePassEntity);
+     void remove(long id);
 
      List<Person> findOtherPersonsWithoutFriends(Person currentPerson);
 }

@@ -56,7 +56,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
         String message= messageRequest.getText();
 
         if (message.equals("/start")) {
-            setAnswerMessage(messageRequest, "Напишите username");
+            setAnswerMessage(messageRequest, "Привет, " + messageRequest.getChat().getFirstName() + "!");
         } else if (message.startsWith("/username")) {
             int spaceIndex = message.indexOf(" ");
             if (spaceIndex != -1) {
@@ -93,6 +93,11 @@ public class TelegramBotService extends TelegramLongPollingBot {
             } else {
                 setAnswerMessage(messageRequest, "Напиши через пробел: '/remove имя_пользователя'");
             }
+        } else if (message.equals("/help")) {
+            setAnswerMessage(messageRequest, """
+                    Доступны команды:\s
+                    /username имя_пользователя - синхронизировать аккаунт с системой
+                    /remove имя_пользователя - удалить синхронизацию аккаунта с системой""");
         }
         else {
             setAnswerMessage(messageRequest, "Погода сегодня замечательная!");
