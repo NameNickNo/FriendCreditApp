@@ -1,0 +1,93 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1.4.0
+      author: NameNickNo
+      changes:
+        - createTable:
+            tableName: employee
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: eeid
+                  type: varchar(16)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: full_name
+                  type: varchar(128)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: job_title
+                  type: varchar(128)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: department
+                  type: varchar(128)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: business_unit
+                  type: varchar(128)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: gender
+                  type: varchar(16)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: ethnicity
+                  type: varchar(128)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: age
+                  type: int
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: hire_date
+                  type: date
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: annual_salary
+                  type: bigint
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: bonus
+                  type: double
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: country
+                  type: varchar(128)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: city
+                  type: varchar(128)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: exit_date
+                  type: date
+  - changeSet:
+      id: 1.4.1
+      author: NameNickNo
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: eeid
+            indexName: idx_eeid
+            tableName: employee

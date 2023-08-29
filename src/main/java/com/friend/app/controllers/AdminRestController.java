@@ -1,6 +1,7 @@
 package com.friend.app.controllers;
 
 import com.friend.app.dto.PersonDTO;
+import com.friend.app.migration.EmployeeCreatorEntity;
 import com.friend.app.models.person.Person;
 import com.friend.app.service.PersonService;
 import com.friend.app.setting.HibernateQualifier;
@@ -17,9 +18,11 @@ import java.util.Optional;
 public class AdminRestController {
 
     private final PersonService personService;
+    private final EmployeeCreatorEntity employeeCreatorEntity;
 
-    public AdminRestController(@HibernateQualifier PersonService personService) {
+    public AdminRestController(@HibernateQualifier PersonService personService, EmployeeCreatorEntity employeeCreatorEntity) {
         this.personService = personService;
+        this.employeeCreatorEntity = employeeCreatorEntity;
     }
 
     @PostMapping("/person/edit")
@@ -44,9 +47,21 @@ public class AdminRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/employee/execute")
+    public ResponseEntity<HttpStatus> executeParseData() {
+        employeeCreatorEntity.processDataFromFile();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> handleException(PersonNotFoundException e) {
         ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(RuntimeException e) {
+        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

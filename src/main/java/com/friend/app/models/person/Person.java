@@ -52,7 +52,7 @@ public class Person extends BaseEntity {
     @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
     private List<Friendship> friends;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "telegram_account_id", referencedColumnName = "id")
     private TelegramAccount telegramAccount;
 

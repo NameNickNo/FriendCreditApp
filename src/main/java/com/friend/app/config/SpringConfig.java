@@ -56,8 +56,8 @@ public class SpringConfig implements WebMvcConfigurer {
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("spring.jpa.properties.hibernate.dialect", getProperty("spring.jpa.properties.hibernate.dialect"));
-        properties.put("spring.jpa.properties.hibernate.show_sql", getProperty("spring.jpa.properties.hibernate.show_sql"));
+        properties.put("hibernate.dialect", getProperty("spring.jpa.properties.hibernate.dialect"));
+        properties.put("hibernate.show_sql", getProperty("spring.jpa.properties.hibernate.show_sql"));
         return properties;
     }
 
